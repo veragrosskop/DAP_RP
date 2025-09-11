@@ -1,28 +1,30 @@
 /* style.qss - Sample QSS for DAP Player UI */
 
 QWidget {
-    background-color: #f0f0f0;
-    font-family: Arial;
+    background-color:@@primary_color@@;
+    color: @@secondary_color@@;
+    font-family: Gill Sans MT;
+
+    font-weight: bold;
     font-size: 12pt;
 }
 
 QLabel {
-    color: #222;
+    /* color: #222; */
 }
 
 QLabel#header {
-    background-color: #d3d3d3;
-    color: #222;
-    font-weight: bold;
+    /* background-color: #d3d3d3; */
     font-size: 13pt;
     border-bottom: 1px solid #bbb;
 }
 
 QListWidget {
-    background: #fff;
-    border: 1px solid #ccc;
-    selection-background-color: #000;
-    selection-color: #f0f0f0;
+    background: @@secondary_color@@;
+    color: @@primary_color@@;
+    /* border: 1px solid #ccc; */
+    selection-background-color: @@primary_color@@;
+    selection-color: @@secondary_color@@;
 }
 
 QListWidget::item {
@@ -30,18 +32,18 @@ QListWidget::item {
 }
 
 QListWidget::item:selected {
-    background: #000;
-    color: #f0f0f0;
+    background-color:@@primary_color@@;
+    color: @@secondary_color@@;
 }
 
 QProgressBar {
-    background: #e0e0e0;
+    /* background: #e0e0e0; */
     border: 1px solid #aaa;
     border-radius: 4px;
     height: 10px;
 }
 
 QProgressBar::chunk {
-    background-color: #0078d7;
+    /* background-color: #0078d7; */
     border-radius: 4px;
 }

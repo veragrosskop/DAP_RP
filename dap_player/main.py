@@ -6,8 +6,64 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
-
 # ----------------------
+# Style parser
+# ----------------------
+class Theme:
+    def setTheme(theme):
+
+        if theme == "purple":
+            primary_color = "#272849" 
+            secondary_color = "#B3B9F7"  
+        elif theme == "light":
+            primary_color = "#DCE2F0"  
+            secondary_color = "#50586C" 
+        elif theme == "green":
+            primary_color = "#2C5F2D"  
+            secondary_color = "#FFE77A" 
+        elif theme == "red":
+            primary_color = "#A4193D"  
+            secondary_color = "#FFDFB9" 
+        elif theme == "beige":
+            primary_color = "#755139"  
+            secondary_color = "#F2EDD7" 
+        elif theme == "pink":
+            primary_color = "#F96167"  
+            secondary_color = "#FCE77D" 
+        elif theme == "blue":
+            primary_color = "#00203F"  
+            secondary_color = "#ADEFD1" 
+        elif theme == "warm cold":
+            primary_color = "#08BDBD"  
+            secondary_color = "#F21B3F" 
+        else:
+            primary_color = "#272849"  # Default to dark
+            secondary_color = "#B3B9F7"
+        
+        try:
+            with open("dap_player/style.qss", "r") as f:
+                qssfile = f.readlines()
+        except Exception as e:
+            print(f"Failed to load QSS: {e}")
+        # qssfile = open("dap_player/style.qss", "r").readlines()
+        stylesheet = ""
+
+        def recolor_stylesheet(primary_color, secondary_color, line):
+            if "@@primary_color@@" in line:
+                    line = str.replace(line,"@@primary_color@@", primary_color)
+            if "@@secondary_color@@" in line:
+                    line = str.replace(line,"@@secondary_color@@", secondary_color)
+            return line
+
+        for line in qssfile:
+            line = recolor_stylesheet(primary_color, secondary_color, line)
+            stylesheet+=line
+            stylesheet+="\n"
+        return stylesheet
+
+
+
+
 # Base class for menus
 # ----------------------
 class ListMenu(QWidget):
@@ -19,23 +75,23 @@ class ListMenu(QWidget):
 
         # Header
         self.header = QLabel(title, alignment=Qt.AlignCenter)
-        self.header.setStyleSheet("background-color: lightgray;")
-        self.header.setFont(QFont("Arial", 12, QFont.Bold))
+        # self.header.setStyleSheet("background-color: lightgray;")
+        # self.header.setFont(QFont("Arial", 12, QFont.Bold))
         self.header.setFixedHeight(30)
         layout.addWidget(self.header)
 
         # List of items
         self.list = QListWidget()
-        self.list.setFont(QFont("Arial", 11))
-        self.list.setStyleSheet("""
-            QListWidget::item {
-                padding: 6px;
-            }
-            QListWidget::item:selected {
-                background-color: black;
-                color: white;
-            }
-        """)
+        # self.list.setFont(QFont("Arial", 11))
+        # self.list.setStyleSheet("""
+        #     QListWidget::item {
+        #         padding: 6px;
+        #     }
+        #     QListWidget::item:selected {
+        #         background-color: black;
+        #         color: white;
+        #     }
+        # """)
         for text in items:
             self.list.addItem(QListWidgetItem(text))
         self.list.setCurrentRow(0)
@@ -189,8 +245,9 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     # Load and apply QSS stylesheet
     try:
-        with open("dap_player/style.qss", "r") as f:
-            app.setStyleSheet(f.read())
+        app.setStyleSheet(Theme.setTheme("purple"))
+        # with open("dap_player/style.qss", "r") as f:
+        #     app.setStyleSheet(f.read())
     except Exception as e:
         print(f"Failed to load QSS: {e}")
     window = DAPScreenUI()
