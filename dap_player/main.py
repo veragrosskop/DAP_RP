@@ -82,16 +82,6 @@ class ListMenu(QWidget):
 
         # List of items
         self.list = QListWidget()
-        # self.list.setFont(QFont("Arial", 11))
-        # self.list.setStyleSheet("""
-        #     QListWidget::item {
-        #         padding: 6px;
-        #     }
-        #     QListWidget::item:selected {
-        #         background-color: black;
-        #         color: white;
-        #     }
-        # """)
         for text in items:
             self.list.addItem(QListWidgetItem(text))
         self.list.setCurrentRow(0)
@@ -147,8 +137,9 @@ class NowPlayingScreen(QWidget):
 class DAPScreenUI(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("iPod Classic Screen")
-        self.resize(240, 320)
+        self.setWindowTitle("DAP Player")
+        # self.resize(480, 320)
+        self.setFixedSize(480, 320)
 
         # Central container
         central = QWidget()
@@ -245,7 +236,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     # Load and apply QSS stylesheet
     try:
-        app.setStyleSheet(Theme.setTheme("purple"))
+        app.setStyleSheet(Theme.setTheme("green"))
         # with open("dap_player/style.qss", "r") as f:
         #     app.setStyleSheet(f.read())
     except Exception as e:
