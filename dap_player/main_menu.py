@@ -1,10 +1,18 @@
 import sys
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout,
-    QLabel, QListWidget, QProgressBar, QStackedWidget, QListWidgetItem
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QListWidget,
+    QProgressBar,
+    QStackedWidget,
+    QListWidgetItem,
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
+
 
 # ----------------------
 # Style parser
@@ -13,33 +21,33 @@ class Theme:
     def setTheme(theme):
 
         if theme == "purple":
-            primary_color = "#272849" 
-            secondary_color = "#B3B9F7"  
+            primary_color = "#272849"
+            secondary_color = "#B3B9F7"
         elif theme == "light":
-            primary_color = "#DCE2F0"  
-            secondary_color = "#50586C" 
+            primary_color = "#DCE2F0"
+            secondary_color = "#50586C"
         elif theme == "green":
-            primary_color = "#2C5F2D"  
-            secondary_color = "#FFE77A" 
+            primary_color = "#2C5F2D"
+            secondary_color = "#FFE77A"
         elif theme == "red":
-            primary_color = "#A4193D"  
-            secondary_color = "#FFDFB9" 
+            primary_color = "#A4193D"
+            secondary_color = "#FFDFB9"
         elif theme == "beige":
-            primary_color = "#755139"  
-            secondary_color = "#F2EDD7" 
+            primary_color = "#755139"
+            secondary_color = "#F2EDD7"
         elif theme == "pink":
-            primary_color = "#F96167"  
-            secondary_color = "#FCE77D" 
+            primary_color = "#F96167"
+            secondary_color = "#FCE77D"
         elif theme == "blue":
-            primary_color = "#00203F"  
-            secondary_color = "#ADEFD1" 
+            primary_color = "#00203F"
+            secondary_color = "#ADEFD1"
         elif theme == "warm cold":
-            primary_color = "#08BDBD"  
-            secondary_color = "#F21B3F" 
+            primary_color = "#08BDBD"
+            secondary_color = "#F21B3F"
         else:
             primary_color = "#272849"  # Default to dark
             secondary_color = "#B3B9F7"
-        
+
         try:
             with open("dap_player/style.qss", "r") as f:
                 qssfile = f.readlines()
@@ -50,18 +58,16 @@ class Theme:
 
         def recolor_stylesheet(primary_color, secondary_color, line):
             if "@@primary_color@@" in line:
-                    line = str.replace(line,"@@primary_color@@", primary_color)
+                line = str.replace(line, "@@primary_color@@", primary_color)
             if "@@secondary_color@@" in line:
-                    line = str.replace(line,"@@secondary_color@@", secondary_color)
+                line = str.replace(line, "@@secondary_color@@", secondary_color)
             return line
 
         for line in qssfile:
             line = recolor_stylesheet(primary_color, secondary_color, line)
-            stylesheet+=line
-            stylesheet+="\n"
+            stylesheet += line
+            stylesheet += "\n"
         return stylesheet
-
-
 
 
 # Base class for menus
@@ -157,9 +163,9 @@ class DAPScreenUI(QMainWindow):
         self.now_playing = NowPlayingScreen()
 
         # Add them to stack
-        self.stack.addWidget(self.main_menu)      # index 0
+        self.stack.addWidget(self.main_menu)  # index 0
         self.stack.addWidget(self.settings_menu)  # index 1
-        self.stack.addWidget(self.now_playing)    # index 2
+        self.stack.addWidget(self.now_playing)  # index 2
 
         # Navigation history stack (like back button)
         self.history = []
@@ -227,20 +233,3 @@ class DAPScreenUI(QMainWindow):
         else:
             self.history.append(self.stack.currentWidget())
             self.stack.setCurrentWidget(self.now_playing)
-
-
-# ----------------------
-# Run app
-# ----------------------
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    # Load and apply QSS stylesheet
-    try:
-        app.setStyleSheet(Theme.setTheme("green"))
-        # with open("dap_player/style.qss", "r") as f:
-        #     app.setStyleSheet(f.read())
-    except Exception as e:
-        print(f"Failed to load QSS: {e}")
-    window = DAPScreenUI()
-    window.show()
-    sys.exit(app.exec())
