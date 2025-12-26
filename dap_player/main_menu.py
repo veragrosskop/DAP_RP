@@ -1,17 +1,4 @@
-import sys
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QListWidget,
-    QProgressBar,
-    QStackedWidget,
-    QListWidgetItem,
-)
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
+from PySide6 import QtGui, QtCore, QtWidgets
 
 
 # ----------------------
@@ -72,24 +59,24 @@ class Theme:
 
 # Base class for menus
 # ----------------------
-class ListMenu(QWidget):
+class ListMenu(QtWidgets.QWidget):
     def __init__(self, title, items):
         super().__init__()
-        layout = QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
 
         # Header
-        self.header = QLabel(title, alignment=Qt.AlignCenter)
+        self.header = QtWidgets.QLabel(title, alignment=QtCore.Qt.AlignCenter)
         # self.header.setStyleSheet("background-color: lightgray;")
         # self.header.setFont(QFont("Arial", 12, QFont.Bold))
         self.header.setFixedHeight(30)
         layout.addWidget(self.header)
 
         # List of items
-        self.list = QListWidget()
+        self.list = QtWidgets.QListWidget()
         for text in items:
-            self.list.addItem(QListWidgetItem(text))
+            self.list.addItem(QtWidgets.QListWidgetItem(text))
         self.list.setCurrentRow(0)
         layout.addWidget(self.list)
 
@@ -110,25 +97,25 @@ class SettingsMenu(ListMenu):
 # ----------------------
 # Now Playing screen
 # ----------------------
-class NowPlayingScreen(QWidget):
+class NowPlayingScreen(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        layout = QVBoxLayout(self)
+        layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(5, 5, 5, 5)
 
-        self.song_title = QLabel("Song Title", alignment=Qt.AlignCenter)
-        self.song_title.setFont(QFont("Arial", 12, QFont.Bold))
+        self.song_title = QtWidgets.QLabel("Song Title", alignment=QtCore.Qt.AlignCenter)
+        self.song_title.setFont(QtGui.QFont("Arial", 12, QtGui.QFont.Bold))
 
-        self.song_artist = QLabel("Artist Name", alignment=Qt.AlignCenter)
-        self.song_artist.setFont(QFont("Arial", 10))
+        self.song_artist = QtWidgets.QLabel("Artist Name", alignment=QtCore.Qt.AlignCenter)
+        self.song_artist.setFont(QtGui.QFont("Arial", 10))
 
-        self.progress = QProgressBar()
+        self.progress = QtWidgets.QProgressBar()
         self.progress.setValue(40)
         self.progress.setTextVisible(False)
         self.progress.setStyleSheet("QProgressBar { height: 10px; }")
 
-        self.status = QLabel("▶ 0:42 / 3:25", alignment=Qt.AlignCenter)
-        self.status.setFont(QFont("Arial", 9))
+        self.status = QtWidgets.QLabel("▶ 0:42 / 3:25", alignment=QtCore.Qt.AlignCenter)
+        self.status.setFont(QtGui.QFont("Arial", 9))
 
         layout.addWidget(self.song_title)
         layout.addWidget(self.song_artist)
@@ -140,7 +127,7 @@ class NowPlayingScreen(QWidget):
 # ----------------------
 # Main DAP screen logic
 # ----------------------
-class DAPScreenUI(QMainWindow):
+class DAPScreenUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("DAP Player")
@@ -148,13 +135,13 @@ class DAPScreenUI(QMainWindow):
         self.setFixedSize(480, 320)
 
         # Central container
-        central = QWidget()
+        central = QtWidgets.QWidget()
         self.setCentralWidget(central)
-        main_layout = QVBoxLayout(central)
+        main_layout = QtWidgets.QVBoxLayout(central)
         main_layout.setContentsMargins(5, 5, 5, 5)
 
         # Stacked widget for screens
-        self.stack = QStackedWidget()
+        self.stack = QtWidgets.QStackedWidget()
         main_layout.addWidget(self.stack)
 
         # Create menus/screens
@@ -181,21 +168,21 @@ class DAPScreenUI(QMainWindow):
 
         if isinstance(current_widget, ListMenu):
             # Menu navigation
-            if event.key() == Qt.Key_Up:
+            if event.key() == QtCore.Qt.Key_Up:
                 row = current_widget.list.currentRow()
                 if row > 0:
                     current_widget.list.setCurrentRow(row - 1)
-            elif event.key() == Qt.Key_Down:
+            elif event.key() == QtCore.Qt.Key_Down:
                 row = current_widget.list.currentRow()
                 if row < current_widget.list.count() - 1:
                     current_widget.list.setCurrentRow(row + 1)
-            elif event.key() in (Qt.Key_Return, Qt.Key_Enter):
+            elif event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
                 self.select_menu_item(current_widget)
-            elif event.key() == Qt.Key_Backspace:
+            elif event.key() == QtCore.Qt.Key_Backspace:
                 self.go_back()
 
         # Global toggle to Now Playing
-        if event.key() == Qt.Key_M:
+        if event.key() == QtCore.Qt.Key_M:
             self.toggle_now_playing()
 
     # ----------------------

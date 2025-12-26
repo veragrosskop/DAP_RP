@@ -1,6 +1,6 @@
 import sys
 
-from PySide6.QtWidgets import QApplication
+from PySide6 import QtWidgets
 
 from dap_player.main_menu import DAPScreenUI, Theme
 
@@ -8,10 +8,10 @@ from dap_player.main_menu import DAPScreenUI, Theme
 # Run app
 # ----------------------
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     # Load and apply QSS stylesheet
     try:
-        app.setStyleSheet(Theme.setTheme("green"))
+        app.setStyleSheet(Theme.setTheme("purple"))
         # with open("dap_player/style.qss", "r") as f:
         #     app.setStyleSheet(f.read())
     except Exception as e:
