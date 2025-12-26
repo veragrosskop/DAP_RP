@@ -81,6 +81,9 @@ class ListMenu(QtWidgets.QWidget):
         layout.addWidget(self.list)
 
 
+print("foo")
+
+
 # ----------------------
 # Concrete menus
 # ----------------------
