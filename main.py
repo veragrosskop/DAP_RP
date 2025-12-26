@@ -2,7 +2,7 @@ import sys
 
 from PySide6 import QtWidgets
 
-from dap_player.main_menu import DAPScreenUI, Theme
+from dap_player.ui.main_menu import DAPScreenUI, Theme
 
 # ----------------------
 # Run app
