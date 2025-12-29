@@ -36,7 +36,7 @@ class Theme:
             secondary_color = "#B3B9F7"
 
         try:
-            with open("dap_player/style.qss", "r") as f:
+            with open("dap_player/ui/style/style.qss", "r") as f:
                 qssfile = f.readlines()
         except Exception as e:
             print(f"Failed to load QSS: {e}")
