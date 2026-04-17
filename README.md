@@ -18,14 +18,14 @@ The repository is still a work in process. Below you can find some implemented f
 Full list of prioritized features. We are currently working on the ones with the  🔧.
 
 📂 Music Library
-   2.  [ ] Sync library from PC. 
-   3.  [ ] 🔧 Complete Database with: 
-         * Album, Artist, Album Image, Track, Track Info, Album Info, Genre
+1.  [ ] Sync library from PC. 
+2.  [ ] 🔧 Complete Database with: 
+   * Album, Artist, Album Image, Track, Track Info, Album Info, Genre
 
 🎨 UI
-   3. [ ]  🔧 functioning player UI (play, pause, next, previous)
-   4. [ ]  🔧 library menu
-   5. [ ] customization menu
+1. [ ]  🔧 functioning player UI (play, pause, next, previous)
+2. [ ]  🔧 library menu
+3. [ ] customization menu
 
 📊 Collect Data
 1. [ ] track playtimes per song
