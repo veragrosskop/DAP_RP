@@ -12,7 +12,7 @@ The repository is still a work in process. Below you can find some implemented f
 - Future Feature: Spotify Accessibility
 
 <img alt="main_menu.png" src="readme_src/main_menu.png" width="240" title="Main Menu"/>
-<img alt="play_screen.png" src="play_screen.png" width="240" title="Play Screen"/>
+<img alt="play_screen.png" src="readme_src/play_screen.png" width="240" title="Play Screen"/>
 
 ## 📀 Feature Implementation overview 
 
