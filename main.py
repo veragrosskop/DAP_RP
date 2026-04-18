@@ -5,6 +5,7 @@ from PySide6 import QtWidgets
 from dap_player.ui.main_menu import DAPScreenUI
 from dap_player.ui.style.theme import Stylesheet, Theme
 
+
 # ----------------------
 # Run app
 # ----------------------

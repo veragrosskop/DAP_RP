@@ -40,6 +40,4 @@ jobs:
       - name: Run script
         run: |
           source "$VENV_PATH/bin/activate"
-          nohup python3 main.py > /var/tmp/dap.log 2>&1 &
-          disown
-          exit 0
+          python3 main.py
