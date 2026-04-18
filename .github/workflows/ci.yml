@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main, dev-document-raspi ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
         shell: bash
 
     env:
-      VENV_PATH: ~/.cache/gh-venvs/dap-venv
+      VENV_PATH: /var/tmp/.cache/gh-venvs/dap-venv
       PYTHON: python3
       TMPDIR: "/var/tmp"
 
@@ -26,28 +26,17 @@ jobs:
         run: mkdir -p $(dirname "$VENV_PATH")
 
       - name: Restore or create virtual environment
-        id: venv
         run: |
-          if [ -d "$VENV_PATH" ]; then
+          if [ -f "$VENV_PATH/bin/python" ]; then
             echo "Using cached venv at $VENV_PATH"
           else
             echo "Creating new venv at $VENV_PATH"
             $PYTHON -m venv "$VENV_PATH"
-            source "$VENV_PATH/bin/activate"
-            pip install --upgrade pip
-
-            pip install --cache-dir $TMPDIR .
           fi
-
-      - name: Activate venv and install updated deps (if needed)
-        run: |
+          
           source "$VENV_PATH/bin/activate"
           pip install --upgrade pip
-
-          # Optional: reinstall if requirements changed
-          if [ -f requirements.txt ]; then
-            pip install --cache-dir $TMPDIR .
-          fi
+          pip install --cache-dir "$TMPDIR" --upgrade .
 
       - name: Run script
         run: |
