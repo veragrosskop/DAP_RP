@@ -36,7 +36,7 @@ jobs:
             source "$VENV_PATH/bin/activate"
             pip install --upgrade pip
 
-            pip install --cache-dir $TMPDIR -r requirements.txt
+            pip install --cache-dir $TMPDIR .
           fi
 
       - name: Activate venv and install updated deps (if needed)
@@ -46,7 +46,7 @@ jobs:
 
           # Optional: reinstall if requirements changed
           if [ -f requirements.txt ]; then
-            pip install --cache-dir $TMPDIR -r requirements.txt
+            pip install --cache-dir $TMPDIR .
           fi
 
       - name: Run script
