@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main, dev-ci-tests ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -32,10 +32,11 @@ jobs:
           else
             echo "Creating new venv at $VENV_PATH"
             $PYTHON -m venv "$VENV_PATH"
-            source "$VENV_PATH/bin/activate"
-            pip install --upgrade pip
-            pip install --cache-dir "$TMPDIR" --upgrade .
           fi
+          
+          source "$VENV_PATH/bin/activate"
+          pip install --upgrade pip
+          pip install --cache-dir "$TMPDIR" --upgrade .
 
       - name: Run script
         run: |
