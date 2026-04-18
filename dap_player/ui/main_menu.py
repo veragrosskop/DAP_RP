@@ -1,84 +1,8 @@
+from typing import List, Dict
+
 from PySide6 import QtGui, QtCore, QtWidgets
 
-
-# ----------------------
-# Style parser
-# ----------------------
-class Theme:
-    def setTheme(theme):
-
-        if theme == "purple":
-            primary_color = "#272849"
-            secondary_color = "#B3B9F7"
-        elif theme == "light":
-            primary_color = "#DCE2F0"
-            secondary_color = "#50586C"
-        elif theme == "green":
-            primary_color = "#2C5F2D"
-            secondary_color = "#FFE77A"
-        elif theme == "red":
-            primary_color = "#A4193D"
-            secondary_color = "#FFDFB9"
-        elif theme == "beige":
-            primary_color = "#755139"
-            secondary_color = "#F2EDD7"
-        elif theme == "pink":
-            primary_color = "#F96167"
-            secondary_color = "#FCE77D"
-        elif theme == "blue":
-            primary_color = "#00203F"
-            secondary_color = "#ADEFD1"
-        elif theme == "warm cold":
-            primary_color = "#08BDBD"
-            secondary_color = "#F21B3F"
-        else:
-            primary_color = "#272849"  # Default to dark
-            secondary_color = "#B3B9F7"
-
-        try:
-            with open("dap_player/ui/style/style.qss", "r") as f:
-                qssfile = f.readlines()
-        except Exception as e:
-            print(f"Failed to load QSS: {e}")
-        # qssfile = open("dap_player/style.qss", "r").readlines()
-        stylesheet = ""
-
-        def recolor_stylesheet(primary_color, secondary_color, line):
-            if "@@primary_color@@" in line:
-                line = str.replace(line, "@@primary_color@@", primary_color)
-            if "@@secondary_color@@" in line:
-                line = str.replace(line, "@@secondary_color@@", secondary_color)
-            return line
-
-        for line in qssfile:
-            line = recolor_stylesheet(primary_color, secondary_color, line)
-            stylesheet += line
-            stylesheet += "\n"
-        return stylesheet
-
-
-# Base class for menus
-# ----------------------
-class ListMenu(QtWidgets.QWidget):
-    def __init__(self, title, items):
-        super().__init__()
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(2)
-
-        # Header
-        self.header = QtWidgets.QLabel(title, alignment=QtCore.Qt.AlignCenter)
-        # self.header.setStyleSheet("background-color: lightgray;")
-        # self.header.setFont(QFont("Arial", 12, QFont.Bold))
-        self.header.setFixedHeight(30)
-        layout.addWidget(self.header)
-
-        # List of items
-        self.list = QtWidgets.QListWidget()
-        for text in items:
-            self.list.addItem(QtWidgets.QListWidgetItem(text))
-        self.list.setCurrentRow(0)
-        layout.addWidget(self.list)
+from dap_player.ui.widgets.menu_list import ListMenu
 
 
 # ----------------------
@@ -86,12 +10,29 @@ class ListMenu(QtWidgets.QWidget):
 # ----------------------
 class MainMenu(ListMenu):
     def __init__(self):
-        super().__init__("Music", ["Playlists", "Artists", "Albums", "Songs", "Settings"])
+        super().__init__(
+            "Music",
+            ["Playlists", "Artists", "Albums", "Songs", "Settings"],
+        )
+
+        self._widgets: Dict[str, QtWidgets.QWidget] = {
+            "Playlists": None,
+            "Artists": None,
+            "Albums": None,
+            "Songs": None,
+            "Settings": SettingsMenu(),
+        }
+
+    def on_menu_item_selected(self) -> QtWidgets.QWidget:
+        selected = self.list.currentItem().text()
 
 
 class SettingsMenu(ListMenu):
     def __init__(self):
-        super().__init__("Settings", ["Backlight", "Shuffle", "About"])
+        super().__init__(
+            "Settings",
+            ["Backlight", "Shuffle", "About"],
+        )
 
 
 # ----------------------
@@ -167,19 +108,21 @@ class DAPScreenUI(QtWidgets.QMainWindow):
         current_widget = self.stack.currentWidget()
 
         if isinstance(current_widget, ListMenu):
-            # Menu navigation
+
+            # Scroll navigation
             if event.key() == QtCore.Qt.Key_Up:
                 row = current_widget.list.currentRow()
-                if row > 0:
-                    current_widget.list.setCurrentRow(row - 1)
+                current_widget.list.setCurrentRow(min(row - 1, 0))
             elif event.key() == QtCore.Qt.Key_Down:
                 row = current_widget.list.currentRow()
-                if row < current_widget.list.count() - 1:
-                    current_widget.list.setCurrentRow(row + 1)
-            elif event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+                current_widget.list.setCurrentRow(max(row + 1, current_widget.list.count() - 1))
+
+            elif event.key() in (QtCore.Qt.Key_Right, QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return):
                 self.select_menu_item(current_widget)
-            elif event.key() == QtCore.Qt.Key_Backspace:
-                self.go_back()
+
+        # Global toggle to go back
+        if event.key() == QtCore.Qt.Key_Left:
+            self.go_back()
 
         # Global toggle to Now Playing
         if event.key() == QtCore.Qt.Key_M:
