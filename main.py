@@ -11,6 +11,6 @@ from dap_player.ui.style.theme import Stylesheet, Theme
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = DAPScreenUI()
-    window.setStyleSheet(Stylesheet.stylesheet(Theme.green))
+    window.setStyleSheet(Stylesheet.stylesheet(Theme.purple))
     window.show()
     sys.exit(app.exec())
