@@ -2,46 +2,54 @@
 
 ## 📀 About This Project
 
-This is a personal project of Emil Dohne & Vera Großkop. This Digital Audio Player Software will run on our custom Raspberry Pi Audio Player. 
-The repository is still a work in process. Below you can find some implemented features and previews:
 
-- Basic UI with different colour schemes.
-- Database implementation with SQLAlchemy.
-- Personal Usage Data and Statistics.
-- Future Feature: Personalized Playlists with AI
-- Future Feature: Spotify Accessibility
+A custom Digital Audio Player application designed for a Raspberry Pi-based audio device.  
+The software provides a lightweight, customizable digital music player with database-backed library management and usage tracking.
+
+### Features
+
+- Modern MP3 player UI with customizable color themes
+- Music library management using SQLAlchemy
+- Playback system with track navigation and controls
+- Customizable UI with different color schemes.
+- User listening statistics and play history tracking
+- Planned: AI-powered playlist generation
+- Planned: Spotify integration
 
 <img alt="main_menu.png" src="readme_src/main_menu.png" width="240" title="Main Menu"/> <img alt="play_screen.png" src="readme_src/play_screen.png" width="240" title="Play Screen"/>
 
 ## 📀 Feature Implementation overview 
 
-Full list of prioritized features. We are currently working on the ones with the  🔧.
+>⚠️ This project is currently in active development. We are currently working on the ones with the  🔧.
+
 
 📂 Music Library
-1.  [ ] Sync library from PC. 
-2.  [ ] 🔧 Complete Database with: 
+- [ ] Sync library from PC. 
+- 🔧 Complete Database with: 
    * Album, Artist, Album Image, Track, Track Info, Album Info, Genre
 
 🎨 UI
-1. [ ]  🔧 functioning player UI (play, pause, next, previous)
-2. [ ]  🔧 library menu
-3. [ ] customization menu
+- 🔧 functioning player UI (play, pause, next, previous)
+- 🔧 library menu
+- 🔧  customization menu
 
 📊 Collect Data
-1. [ ] track playtimes per song
-   2. [ ] keep data on sync changes
-3. [ ] automated playlist ( Top 100 songs of all time, Top 50 songs this month, yearly playlists)
+- [ ] track playtimes per song
+   - [ ] keep data on sync changes
+- [ ] automated playlist ( Top 100 songs of all time, Top 50 songs this month, yearly playlists)
 
 🔩 Hardware
-1. [ ] Set Keybindings on Raspberry Pie to click wheel input (Ipod Classic Style)
-2. [ ] Smooth audio transmission to headphones on Raspberry Pi.
+- [ ] Set Keybindings on Raspberry Pie to click wheel input (Ipod Classic Style)
+- [ ] Smooth audio transmission to headphones on Raspberry Pi.
 
+---
 ## 📀 Hardware Specs
 
 We are stsill troubleshooting some parts, but so far we are using:
 - Raspberry Pi Sero 2 W
 - 3,5" Touch Display for Raspberry Pi from BerryBase
 
+---
 ## 📀 Install instructions
 
 To set up and install the venv (including dev tools), copy and paste the 
